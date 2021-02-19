@@ -1,0 +1,19 @@
+{
+  "name": "vamogram-backend",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "dev": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/superbeom/vamogram-backend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/superbeom/vamogram-backend/issues"
+  },
+  "homepage": "https://github.com/superbeom/vamogram-backend#readme"
+}
