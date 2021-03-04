@@ -36,5 +36,33 @@ export default {
         return error;
       }
     },
+
+    login: async (_, { username, password }) => {
+      // Find user with args,username
+      const user = await client.user.findUnique({
+        where: {
+          username,
+        },
+      });
+
+      if (!user) {
+        return {
+          ok: false,
+          error: "User not found.",
+        };
+      }
+
+      const passwordOk = await bcrypt.compare(password, user.password);
+
+      if (!passwordOk) {
+        return {
+          ok: false,
+          error: "Incorrect password.",
+        };
+      }
+
+      // Check password with args.password
+      // Issue a token and send it to the user
+    },
   },
 };
