@@ -1,41 +1,45 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import client from "../../client";
 
 export default {
   Mutation: {
-    login: async (_, { username, password }) => {
-      // Find user with args,username
-      const user = await client.user.findUnique({
-        where: {
-          username,
-        },
-      });
+    login: async (_, { username, password }, { client }) => {
+      try {
+        // Find user with args,username
+        const user = await client.user.findUnique({
+          where: {
+            username,
+          },
+        });
 
-      if (!user) {
+        if (!user) {
+          return {
+            ok: false,
+            error: "User not found.",
+          };
+        }
+
+        // Check password with args.password
+        const passwordOk = await bcrypt.compare(password, user.password);
+
+        if (!passwordOk) {
+          return {
+            ok: false,
+            error: "Incorrect password.",
+          };
+        }
+
+        // Issue a token and send it to the user
+        const token = await jwt.sign({ id: user.id }, process.env.SECRET_KEY);
+
         return {
-          ok: false,
-          error: "User not found.",
+          ok: true,
+          token,
         };
+      } catch (error) {
+        console.log("Error @login.resolvers: ", error.message);
+        return error;
       }
-
-      // Check password with args.password
-      const passwordOk = await bcrypt.compare(password, user.password);
-
-      if (!passwordOk) {
-        return {
-          ok: false,
-          error: "Incorrect password.",
-        };
-      }
-
-      // Issue a token and send it to the user
-      const token = await jwt.sign({ id: user.id }, process.env.SECRET_KEY);
-
-      return {
-        ok: true,
-        token,
-      };
     },
   },
 };
