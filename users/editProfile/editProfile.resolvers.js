@@ -3,13 +3,17 @@ import { protectedResolver } from "../users.utils";
 
 const resolverFn = async (
   _,
-  { firstName, lastName, username, email, password: newPassword, bio },
+  { firstName, lastName, username, email, password: newPassword, bio, avatar },
   { loggedInUser, client }
 ) => {
   try {
     let uglyPassword = null;
     if (newPassword) {
       uglyPassword = await bcrypt.hash(newPassword, 10);
+    }
+
+    if (avatar) {
+      console.log("avatar: ", avatar);
     }
 
     const updatedUser = await client.user.update({
