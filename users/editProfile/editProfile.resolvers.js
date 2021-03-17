@@ -13,7 +13,9 @@ const resolverFn = async (
     }
 
     if (avatar) {
-      console.log("avatar: ", avatar);
+      const { filename, createReadStream } = await avatar;
+      const stream = createReadStream();
+      console.log(stream);
     }
 
     const updatedUser = await client.user.update({
