@@ -3,12 +3,12 @@ import { protectedResolver } from "../users.utils";
 
 const resolverFn = async (_, { username }, { loggedInUser }) => {
   try {
-    const existFolloUser = await client.user.findUnique({
+    const existFollowUser = await client.user.findUnique({
       where: {
         username,
       },
     });
-    if (!existFolloUser) {
+    if (!existFollowUser) {
       return {
         ok: false,
         error: "That user does not exist.",
