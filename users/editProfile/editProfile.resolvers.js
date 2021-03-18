@@ -1,3 +1,4 @@
+import { createWriteStream } from "fs";
 import bcrypt from "bcrypt";
 import { protectedResolver } from "../users.utils";
 
@@ -14,8 +15,12 @@ const resolverFn = async (
 
     if (avatar) {
       const { filename, createReadStream } = await avatar;
-      const stream = createReadStream();
-      console.log(stream);
+      const readStream = createReadStream();
+      const writeStream = createWriteStream(
+        process.cwd() + "/uploads/" + filename
+      );
+
+      readStream.pipe(writeStream);
     }
 
     const updatedUser = await client.user.update({
