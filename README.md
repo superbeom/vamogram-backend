@@ -11,7 +11,7 @@ Vamogram Backend
 - [x] Change Avatar (Image Upload)
 - [x] Follow User
 - [x] Unfollow User
-- [ ] See Followers and Following w/ Pagination
+- [x] See Followers and Following w/ Pagination
 - [ ] Computed Fields
 - [ ] Search Users
 
