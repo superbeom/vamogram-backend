@@ -57,7 +57,11 @@ const resolverFn = async (
     }
   } catch (error) {
     console.log("Error @resolverFn_editProfile.resolvers: ", error.message);
-    return error;
+
+    return {
+      ok: false,
+      error: "Could not update profile.",
+    };
   }
 };
 

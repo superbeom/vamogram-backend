@@ -38,7 +38,11 @@ export default {
         };
       } catch (error) {
         console.log("Error @login.resolvers: ", error.message);
-        return error;
+
+        return {
+          ok: false,
+          error: "Can not login.",
+        };
       }
     },
   },
