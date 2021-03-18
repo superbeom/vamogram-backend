@@ -13,14 +13,21 @@ const resolverFn = async (
       uglyPassword = await bcrypt.hash(newPassword, 10);
     }
 
+    let avatarUrl = null;
     if (avatar) {
       const { filename, createReadStream } = await avatar;
+      const newFilename = `${loggedInUser.id}-${Date.now()}-${filename}`;
+
       const readStream = createReadStream();
       const writeStream = createWriteStream(
-        process.cwd() + "/uploads/" + filename
+        /* process.cwd(): 현재 디렉터리 경로 */
+        process.cwd() + "/uploads/" + newFilename
       );
 
+      /* 업로드 받은 stream과 저장할 stream을 pipe로 연결 */
       readStream.pipe(writeStream);
+
+      avatarUrl = `http://localhost:4000/static/${newFilename}`;
     }
 
     const updatedUser = await client.user.update({
@@ -34,6 +41,7 @@ const resolverFn = async (
         email,
         ...(uglyPassword && { password: uglyPassword }),
         bio,
+        ...(avatarUrl && { avatar: avatarUrl }),
       },
     });
 
