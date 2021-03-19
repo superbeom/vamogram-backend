@@ -13,10 +13,10 @@ export default gql`
     following: [User]
     totalFollowers: Int!
     totalFollowing: Int!
+    isMe: Boolean!
     createdAt: String!
     updatedAt: String!
   }
 `;
 
 // isFollowing: Boolean!
-// isMe: Boolean!
