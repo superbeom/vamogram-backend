@@ -50,5 +50,15 @@ export default {
 
       return Boolean(exists);
     },
+
+    /* Pagination 적용하기 */
+    photos: ({ id }) =>
+      client.user
+        .findUnique({
+          where: {
+            id,
+          },
+        })
+        .photos(),
   },
 };
