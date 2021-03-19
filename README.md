@@ -12,7 +12,7 @@ Vamogram Backend
 - [x] Follow User
 - [x] Unfollow User
 - [x] See Followers and Following w/ Pagination
-- [ ] Computed Fields
+- [x] Computed Fields
 - [ ] Search Users
 
 ## Photos
