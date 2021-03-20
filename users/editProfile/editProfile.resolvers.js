@@ -1,7 +1,7 @@
-import { createWriteStream } from "fs";
 import bcrypt from "bcrypt";
 import { protectedResolver } from "../users.utils";
 import client from "../../client";
+import { uploadPhoto } from "../../shared/shared.utils";
 
 const resolverFn = async (
   _,
@@ -16,19 +16,25 @@ const resolverFn = async (
 
     let avatarUrl = null;
     if (avatar) {
+      avatarUrl = await uploadPhoto(avatar, loggedInUser.id);
+
+      /*
+      // 서버에 사진을 저장하는 코드
+
       const { filename, createReadStream } = await avatar;
       const newFilename = `${loggedInUser.id}-${Date.now()}-${filename}`;
 
       const readStream = createReadStream();
       const writeStream = createWriteStream(
-        /* process.cwd(): 현재 디렉터리 경로 */
+        // process.cwd(): 현재 디렉터리 경로
         process.cwd() + "/uploads/" + newFilename
       );
 
-      /* 업로드 받은 stream과 저장할 stream을 pipe로 연결 */
+      // 업로드 받은 stream과 저장할 stream을 pipe로 연결
       readStream.pipe(writeStream);
 
       avatarUrl = `http://localhost:4000/static/${newFilename}`;
+      */
     }
 
     const updatedUser = await client.user.update({
