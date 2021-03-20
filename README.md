@@ -34,6 +34,11 @@ Vamogram Backend
 - [x] Delete Comment (Is Mine)
 - [x] Edit Comment
 
+## Refactor
+
+- [x] Mutation Responses
+- [x] Protect Query Resolver
+
 ## Extras
 
 - [ ] S3 Image Upload
