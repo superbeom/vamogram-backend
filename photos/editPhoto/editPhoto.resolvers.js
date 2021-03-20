@@ -1,5 +1,6 @@
 import client from "../../client";
 import { protectedResolver } from "../../users/users.utils";
+import { processHashtags } from "../photos.utils";
 
 const resolverFn = async (_, { id, caption }, { loggedInUser }) => {
   try {
@@ -7,6 +8,13 @@ const resolverFn = async (_, { id, caption }, { loggedInUser }) => {
       where: {
         id,
         userId: loggedInUser.id,
+      },
+      include: {
+        hashtags: {
+          select: {
+            hashtag: true,
+          },
+        },
       },
     });
 
@@ -23,21 +31,23 @@ const resolverFn = async (_, { id, caption }, { loggedInUser }) => {
       },
       data: {
         caption,
+        hashtags: {
+          disconnect: photo.hashtags,
+          connectOrCreate: processHashtags(caption),
+        },
       },
     });
 
-    console.log("updatedPhoto: ", updatedPhoto);
-
-    // if (updatedPhoto.id) {
-    //   return {
-    //     ok: true,
-    //   };
-    // } else {
-    //   return {
-    //     ok: false,
-    //     error: "Could not update profile.",
-    //   };
-    // }
+    if (updatedPhoto.id) {
+      return {
+        ok: true,
+      };
+    } else {
+      return {
+        ok: false,
+        error: "Could not update profile.",
+      };
+    }
   } catch (error) {
     console.log("Error @resolverFn_editPhoto.resolvers: ", error.message);
 

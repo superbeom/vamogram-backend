@@ -1,24 +1,14 @@
 import client from "../../client";
 import { protectedResolver } from "../../users/users.utils";
+import { processHashtags } from "../photos.utils";
 
 const resolverFn = async (_, { file, caption }, { loggedInUser }) => {
   try {
     let hashtagObj = [];
 
     if (caption) {
-      // parse caption
-      const hashtags = caption.match(/#[\w]+/g);
-
-      hashtagObj = hashtags
-        ? hashtags.map((hashtag) => ({
-            where: {
-              hashtag,
-            },
-            create: {
-              hashtag,
-            },
-          }))
-        : [];
+      // extract hashtags from caption
+      hashtagObj = processHashtags(caption);
     }
 
     /*
@@ -35,11 +25,9 @@ const resolverFn = async (_, { file, caption }, { loggedInUser }) => {
             id: loggedInUser.id,
           },
         },
-        ...(hashtagObj.length > 0 && {
-          hashtags: {
-            connectOrCreate: hashtagObj,
-          },
-        }),
+        hashtags: {
+          connectOrCreate: hashtagObj,
+        },
       },
     });
 
