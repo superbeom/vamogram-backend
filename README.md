@@ -32,7 +32,7 @@ Vamogram Backend
 
 - [x] Comment on Photo
 - [x] Delete Comment (Is Mine)
-- [ ] Edit Comment
+- [x] Edit Comment
 
 ## Extras
 
