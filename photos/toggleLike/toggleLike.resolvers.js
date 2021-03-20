@@ -15,6 +15,40 @@ const resolverFn = async (_, { id }, { loggedInUser }) => {
         error: "Photo not found.",
       };
     }
+
+    const likeWhere = {
+      where: {
+        photoId_userId: {
+          photoId: id,
+          userId: loggedInUser.id,
+        },
+      },
+    };
+
+    const like = await client.like.findUnique(likeWhere);
+
+    if (like) {
+      await client.like.delete(likeWhere);
+    } else {
+      await client.like.create({
+        data: {
+          user: {
+            connect: {
+              id: loggedInUser.id,
+            },
+          },
+          photo: {
+            connect: {
+              id: photo.id,
+            },
+          },
+        },
+      });
+    }
+
+    return {
+      ok: true,
+    };
   } catch (error) {
     console.log("Error @resolverFn_toggleLike.resolvers: ", error.message);
 
