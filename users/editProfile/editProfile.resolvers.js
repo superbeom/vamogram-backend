@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
 import { protectedResolver } from "../users.utils";
 import client from "../../client";
-import { uploadPhoto } from "../../shared/shared.utils";
+import { uploadToS3 } from "../../shared/shared.utils";
 
 const resolverFn = async (
   _,
@@ -16,7 +16,7 @@ const resolverFn = async (
 
     let avatarUrl = null;
     if (avatar) {
-      avatarUrl = await uploadPhoto(avatar, loggedInUser.id);
+      avatarUrl = await uploadToS3(avatar, loggedInUser.id, "avatars");
 
       /*
       // 서버에 사진을 저장하는 코드
