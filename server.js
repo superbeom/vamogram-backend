@@ -11,9 +11,11 @@ const apollo = new ApolloServer({
   typeDefs,
   resolvers,
   context: async ({ req }) => {
-    return {
-      loggedInUser: await getUser(req.headers.token),
-    };
+    if (req) {
+      return {
+        loggedInUser: await getUser(req.headers.token),
+      };
+    }
   },
 });
 
@@ -28,7 +30,3 @@ apollo.installSubscriptionHandlers(httpServer);
 httpServer.listen(port, () => {
   console.log(`🚀 Server is running on http://localhost:${port} ✅`);
 });
-
-// app.listen({ port }, () => {
-//   console.log(`🚀 Server is running on http://localhost:${port} ✅`);
-// });
