@@ -21,20 +21,45 @@ const resolverFn = async (_, { payload, roomId, userId }, { loggedInUser }) => {
         };
       }
 
-      room = await client.room.create({
-        data: {
-          users: {
-            connect: [
-              {
-                id: userId,
+      /* userId와 loggedInUser.id가 함께 있는 room이 이미 있는지 체크
+          - 1:1 채팅일때만 가정 - 단체 채팅방의 경우 다른 로직 추가 */
+      room = await client.room.findFirst({
+        where: {
+          AND: [
+            {
+              users: {
+                some: {
+                  id: userId,
+                },
               },
-              {
-                id: loggedInUser.id,
+            },
+            {
+              users: {
+                some: {
+                  id: loggedInUser.id,
+                },
               },
-            ],
-          },
+            },
+          ],
         },
       });
+
+      if (!room) {
+        room = await client.room.create({
+          data: {
+            users: {
+              connect: [
+                {
+                  id: userId,
+                },
+                {
+                  id: loggedInUser.id,
+                },
+              ],
+            },
+          },
+        });
+      }
     } else if (roomId) {
       room = await client.room.findUnique({
         where: {
