@@ -33,5 +33,23 @@ export default {
           },
         },
       }),
+
+    unreadTotal: ({ id }, _, { loggedInUser }) => {
+      if (!loggedInUser) {
+        return 0;
+      }
+
+      return client.message.count({
+        where: {
+          roomId: id,
+          read: false,
+          user: {
+            id: {
+              not: loggedInUser.id,
+            },
+          },
+        },
+      });
+    },
   },
 };
