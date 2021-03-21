@@ -25,12 +25,6 @@ export default {
         },
         select: {
           payload: true,
-          user: {
-            select: {
-              username: true,
-              avatar: true,
-            },
-          },
         },
       }),
 
@@ -51,5 +45,22 @@ export default {
         },
       });
     },
+  },
+
+  Message: {
+    user: ({ id }) =>
+      client.user.findFirst({
+        where: {
+          messages: {
+            some: {
+              id,
+            },
+          },
+        },
+        select: {
+          username: true,
+          avatar: true,
+        },
+      }),
   },
 };
