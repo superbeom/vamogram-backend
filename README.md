@@ -47,5 +47,7 @@ Vamogram Backend
 
 - [x] See Rooms
 - [x] Send Message (Create Room)
-- [ ] See Room
+- [x] See Room
+- [ ] Computed Fields
+- [ ] See Message
 - [ ] Realtime Messages
