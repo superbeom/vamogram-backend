@@ -1,4 +1,5 @@
 require("dotenv").config();
+import http from "http";
 import express from "express";
 import logger from "morgan";
 import { ApolloServer } from "apollo-server-express";
@@ -21,6 +22,13 @@ app.use(logger("tiny"));
 app.use("/static", express.static("uploads"));
 apollo.applyMiddleware({ app });
 
-app.listen({ port }, () => {
+const httpServer = http.createServer(app);
+apollo.installSubscriptionHandlers(httpServer);
+
+httpServer.listen(port, () => {
   console.log(`🚀 Server is running on http://localhost:${port} ✅`);
 });
+
+// app.listen({ port }, () => {
+//   console.log(`🚀 Server is running on http://localhost:${port} ✅`);
+// });
