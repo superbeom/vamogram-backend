@@ -6,10 +6,15 @@ import client from "../../client";
 export default {
   Subscription: {
     roomUpdates: {
-      subscribe: async (_, { id }) => {
-        const room = await client.room.findUnique({
+      subscribe: async (_, { id }, { loggedInUser }) => {
+        const room = await client.room.findFirst({
           where: {
             id,
+            users: {
+              some: {
+                id: loggedInUser.id,
+              },
+            },
           },
           select: {
             id: true,
@@ -22,7 +27,27 @@ export default {
 
         return withFilter(
           () => pubsub.asyncIterator(NEW_MESSAGE),
-          ({ roomUpdates: { roomId } }, { id }) => roomId === id
+          async ({ roomUpdates: { roomId } }, { id }) => {
+            const userInRoom = await client.user.findFirst({
+              where: {
+                id: loggedInUser.id,
+                rooms: {
+                  some: {
+                    id,
+                  },
+                },
+              },
+              select: {
+                id: true,
+              },
+            });
+
+            if (userInRoom) {
+              return roomId === id;
+            } else {
+              return false;
+            }
+          }
         )(_, { id });
       },
     },
