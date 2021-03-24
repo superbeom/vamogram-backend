@@ -45,5 +45,5 @@ const httpServer = http.createServer(app);
 apollo.installSubscriptionHandlers(httpServer);
 
 httpServer.listen(port, () => {
-  console.log(`🚀 Server is running on http://localhost:${port} ✅`);
+  console.log(`🚀 Server is running on http://localhost:${port}/graphql ✅`);
 });
