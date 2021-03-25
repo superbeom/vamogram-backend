@@ -9,6 +9,7 @@ export default {
         },
         select: {
           username: true,
+          avatar: true,
         },
       }),
 

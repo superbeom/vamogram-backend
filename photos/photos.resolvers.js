@@ -28,6 +28,13 @@ export default {
       }),
 
     comments: ({ id }) =>
+      client.comment.findMany({
+        where: {
+          photoId: id,
+        },
+      }),
+
+    commentNumber: ({ id }) =>
       client.comment.count({
         where: {
           photoId: id,
