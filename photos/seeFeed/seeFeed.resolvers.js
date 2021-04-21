@@ -1,9 +1,10 @@
 import client from "../../client";
 import { protectedResolver } from "../../users/users.utils";
 
-const resolverFn = (_, __, { loggedInUser }) =>
-  /* Pagination 추가하기!! */
+const resolverFn = (_, { offset }, { loggedInUser }) =>
   client.photo.findMany({
+    take: 4,
+    skip: offset,
     where: {
       OR: [
         {
