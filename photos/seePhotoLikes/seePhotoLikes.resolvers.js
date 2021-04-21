@@ -11,6 +11,9 @@ export default {
           select: {
             user: true,
           },
+          orderBy: {
+            createdAt: "desc",
+          },
         });
 
         const userArray = users.map((item) => item.user);
