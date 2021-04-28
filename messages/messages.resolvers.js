@@ -11,10 +11,10 @@ export default {
             },
           },
         },
-        select: {
-          username: true,
-          avatar: true,
-        },
+        // select: {
+        //   username: true,
+        //   avatar: true,
+        // },
       }),
 
     /* Pagination 추가하기!! */
@@ -23,9 +23,9 @@ export default {
         where: {
           roomId: id,
         },
-        select: {
-          payload: true,
-        },
+        // select: {
+        //   payload: true,
+        // },
       }),
 
     unreadTotal: ({ id }, _, { loggedInUser }) => {
@@ -57,10 +57,10 @@ export default {
             },
           },
         },
-        select: {
-          username: true,
-          avatar: true,
-        },
+        // select: {
+        //   username: true,
+        //   avatar: true,
+        // },
       }),
   },
 };
