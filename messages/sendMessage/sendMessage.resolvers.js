@@ -100,6 +100,7 @@ const resolverFn = async (_, { payload, roomId, userId }, { loggedInUser }) => {
 
     return {
       ok: true,
+      id: message.id,
     };
   } catch {
     console.log("Error @resolverFn_sendMessage.resolvers: ", error.message);
