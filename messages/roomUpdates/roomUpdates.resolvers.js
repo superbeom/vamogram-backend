@@ -1,6 +1,6 @@
 import pubsub from "../../pubsub";
 import { NEW_MESSAGE } from "../../constants";
-import { withFilter } from "graphql-subscriptions";
+import { withFilter } from "apollo-server-express";
 import client from "../../client";
 
 export default {
