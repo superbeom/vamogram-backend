@@ -3,6 +3,7 @@ import http from "http";
 import express from "express";
 import logger from "morgan";
 import { ApolloServer } from "apollo-server-express";
+// import RedisServer from "redis-server";
 import { typeDefs, resolvers } from "./schema";
 import { getUser } from "./users/users.utils";
 
@@ -37,8 +38,10 @@ const apollo = new ApolloServer({
 });
 
 const app = express();
+// const redisServer = new RedisServer();
 app.use(logger("tiny"));
 app.use("/static", express.static("uploads"));
+// app.use("/graphql", { redisServer });
 apollo.applyMiddleware({ app });
 
 const httpServer = http.createServer(app);
